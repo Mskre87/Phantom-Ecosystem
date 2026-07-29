@@ -1,0 +1,86 @@
+name: Documentation Report
+description: Report an issue related to the Phantom Ecosystem documentation.
+title: "[Docs]: "
+labels:
+  - documentation
+
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to improve the Phantom Ecosystem documentation.
+
+        Please complete the following information to help us understand the issue.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Documentation Area
+      description: Which part of the documentation is affected?
+      options:
+        - README
+        - Architecture
+        - Deployment
+        - Infrastructure
+        - Event Model
+        - Hive Mind
+        - Security Model
+        - Philosophy
+        - Module Documentation
+        - ADR
+        - Diagrams
+        - Repository Structure
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: document
+    attributes:
+      label: Affected Document
+      description: Which file contains the issue?
+      placeholder: docs/architecture.md
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Clearly describe the documentation issue.
+      placeholder: Describe what is incorrect, unclear or missing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Documentation
+      description: What should the documentation say instead?
+      placeholder: Describe the expected documentation.
+
+  - type: textarea
+    id: references
+    attributes:
+      label: Supporting References
+      description: Include references that support your suggestion.
+      placeholder: Architecture document, deployment file, ADR, etc.
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification
+      options:
+        - label: I searched existing issues before submitting this report.
+          required: true
+        - label: This issue does not expose confidential information.
+          required: true
+        - label: The reported information reflects the current implementation.
+          required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Include anything else that may help resolve the issue.

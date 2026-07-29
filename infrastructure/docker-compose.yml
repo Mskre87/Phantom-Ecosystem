@@ -1,0 +1,194 @@
+# Reference Docker Compose topology for the Phantom Ecosystem.
+#
+# This file documents the current service layout and is not intended
+# to be used as a standalone production deployment configuration.
+#
+# Source code, Docker build contexts, credentials, runtime configuration,
+# and operational assets are maintained separately.
+
+services:
+  # Redis Pub/Sub communication layer
+  redis:
+    image: redis:alpine
+    container_name: phantom_redis
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning
+    networks:
+      - phantom_net
+
+  # Central event correlation service
+  phantom_correlation:
+    build: ./phantom_correlation
+    container_name: phantom_correlation
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      HIVE_SECRET_KEY: ${HIVE_SECRET_KEY}
+    volumes:
+      - ./config/shared.env:/app/.env:ro
+    networks:
+      - phantom_net
+
+  # Web asset scanning
+  phantom_core:
+    build: ./phantom_core
+    container_name: phantom_core
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      DISCORD_WEBHOOK_URL: ${PHANTOM_CORE_DISCORD_WEBHOOK_URL}
+    volumes:
+      - ./config/core-targets.json:/app/targets.json:ro
+    networks:
+      - phantom_net
+
+  # Source code repository monitoring
+  phantom_source:
+    build: ./phantom_source
+    container_name: phantom_source
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      DISCORD_WEBHOOK_URL: ${PHANTOM_SOURCE_DISCORD_WEBHOOK_URL}
+    volumes:
+      - ./config/targets_keywords.json:/app/targets_keywords.json:ro
+    networks:
+      - phantom_net
+
+  # Smart contract analysis
+  phantom_crypto:
+    build: ./phantom_crypto
+    container_name: phantom_crypto
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      DISCORD_CRYPTO_WEBHOOK: ${PHANTOM_CRYPTO_DISCORD_WEBHOOK_URL}
+    volumes:
+      - ./config/crypto-targets.json:/app/crypto_targets.json:ro
+      - ./state/crypto-state.json:/app/crypto_state.json
+      - ./loot:/app/loot
+    networks:
+      - phantom_net
+
+  # Binary analysis
+  phantom_binary:
+    build: ./phantom_binary
+    container_name: phantom_binary
+    restart: unless-stopped
+    depends_on:
+      - redis
+    volumes:
+      - ./config/binary-targets:/app/targets:ro
+      - ./config/shared.env:/app/.env:ro
+      - ./state/radar:/phantom_radar
+    networks:
+      - phantom_net
+
+  # Mobile application analysis
+  phantom_mobile:
+    build: ./phantom_mobile
+    container_name: phantom_mobile
+    restart: unless-stopped
+    depends_on:
+      - redis
+    volumes:
+      - ./config/mobile-targets.json:/app/mobile_targets.json:ro
+      - ./state/mobile-state.json:/app/mobile_state.json
+      - ./config/shared.env:/phantom_binary/.env:ro
+      - ./loot:/app/loot
+    networks:
+      - phantom_net
+
+  # Machine Learning repository analysis
+  phantom_ai:
+    build: ./phantom_ai
+    container_name: phantom_ai
+    restart: unless-stopped
+    depends_on:
+      - redis
+    volumes:
+      - ./config/ai-targets.json:/app/ai_targets.json:ro
+      - ./state/ai-state.json:/app/ai_state.json
+      - ./config/shared.env:/phantom_binary/.env:ro
+      - ./loot:/app/loot
+    networks:
+      - phantom_net
+
+  # CI/CD pipeline inspection
+  phantom_pipeline:
+    build: ./phantom_pipeline
+    container_name: phantom_pipeline
+    restart: unless-stopped
+    depends_on:
+      - redis
+    volumes:
+      - ./config/pipeline-targets.json:/app/pipeline_targets.json:ro
+      - ./state/pipeline-state.json:/app/pipeline_state.json
+      - ./config/shared.env:/phantom_binary/.env:ro
+    networks:
+      - phantom_net
+
+  # DNS asset monitoring
+  phantom_dns:
+    build: ./phantom_dns
+    container_name: phantom_dns
+    restart: unless-stopped
+    depends_on:
+      - redis
+    volumes:
+      - ./config/dns-targets.json:/app/dns_targets.json:ro
+      - ./config/shared.env:/phantom_binary/.env:ro
+    networks:
+      - phantom_net
+
+  # Dependency ecosystem analysis
+  phantom_supply:
+    build: ./phantom_supply
+    container_name: phantom_supply
+    restart: unless-stopped
+    depends_on:
+      - redis
+    volumes:
+      - ./config/supply-targets.json:/app/supply_targets.json:ro
+      - ./state/supply-state.json:/app/supply_state.json
+      - ./config/shared.env:/phantom_binary/.env:ro
+    networks:
+      - phantom_net
+
+  # GraphQL endpoint validation
+  phantom_graphql:
+    build: ./phantom_graphql
+    container_name: phantom_graphql
+    restart: unless-stopped
+    depends_on:
+      - redis
+    volumes:
+      - ./config/graphql-targets.json:/app/graphql_targets.json:ro
+      - ./config/shared.env:/phantom_binary/.env:ro
+      - ./loot:/app/loot
+    networks:
+      - phantom_net
+
+  # Frontend JavaScript analysis
+  phantom_js:
+    build: ./phantom_js
+    container_name: phantom_js
+    restart: unless-stopped
+    depends_on:
+      - redis
+    volumes:
+      - ./config/js-targets.json:/app/js_targets.json:ro
+      - ./state/js-state.json:/app/js_state.json
+      - ./config/shared.env:/phantom_binary/.env:ro
+      - ./loot:/app/loot
+    networks:
+      - phantom_net
+
+networks:
+  phantom_net:
+    driver: bridge
