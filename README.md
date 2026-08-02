@@ -1,6 +1,6 @@
 # Phantom Ecosystem
 
-> Official architecture and technical documentation for the Phantom Ecosystem.
+> Official architecture and technical documentation for Phantom Ecosystem, a security research subsystem within Phantom Platform.
 
 <p align="center">
   <img src="assets/branding/github-banner.png" alt="Phantom Ecosystem">
@@ -10,7 +10,7 @@
 
 # Overview
 
-This repository contains the official architecture and technical documentation for **Phantom Ecosystem**, a modular security research ecosystem composed of specialized autonomous services.
+This repository contains the official architecture and technical documentation for **Phantom Ecosystem**, a modular security research subsystem within **Phantom Platform**, composed of specialized autonomous services.
 
 Its purpose is to document the ecosystem architecture, design principles, deployment model, communication patterns, infrastructure, and the responsibilities of each documented module.
 
@@ -21,6 +21,7 @@ Its purpose is to document the ecosystem architecture, design principles, deploy
 - [Overview](#overview)
 - [Repository Scope](#repository-scope)
 - [What is Phantom Ecosystem?](#what-is-phantom-ecosystem)
+- [Relationship to Phantom Platform](#relationship-to-phantom-platform)
 - [Ecosystem Overview](#ecosystem-overview)
 - [Architecture](#architecture)
 - [Repository Structure](#repository-structure)
@@ -39,6 +40,8 @@ Its purpose is to document the ecosystem architecture, design principles, deploy
 
 This repository serves exclusively as the official architectural reference for Phantom Ecosystem.
 
+It documents the Phantom Ecosystem subsystem specifically and does not represent the complete Phantom Platform architecture.
+
 It **does not contain source code, executable artifacts, deployment secrets, or operational infrastructure**. The implementation of each module is maintained separately in private repositories.
 
 Keeping the documentation independent from the implementation allows the architecture to remain stable, versioned, and publicly accessible without exposing operational code.
@@ -47,11 +50,11 @@ Keeping the documentation independent from the implementation allows the archite
 
 # What is Phantom Ecosystem?
 
-Phantom Ecosystem is **a modular security research ecosystem composed of specialized autonomous services with a lightweight event-driven collaboration layer**.
+Phantom Ecosystem is **a modular security research subsystem within Phantom Platform, composed of specialized autonomous services with a lightweight event-driven collaboration layer**.
 
 Each service is responsible for a specific domain of security research and operates independently. Selected services also collaborate through a lightweight event-driven communication model.
 
-The ecosystem is designed around modularity, loose coupling, and independent scalability, allowing each service to evolve without introducing unnecessary dependencies across the platform.
+The ecosystem is designed around modularity, loose coupling, and independent scalability, allowing each service to evolve without introducing unnecessary dependencies across the ecosystem.
 
 Current documented domains include:
 
@@ -68,6 +71,28 @@ Current documented domains include:
 - Machine Learning repositories
 
 ---
+
+# Relationship to Phantom Platform
+
+**Phantom Platform** is the parent security research environment under which multiple independent research systems are developed.
+
+Phantom Ecosystem represents the continuous, service-oriented research layer of the platform. It operates independently from other Phantom Platform systems while remaining part of the same broader research environment.
+
+```text
+PHANTOM_PLATFORM
+│
+├── PHANTOM_ECOSYSTEM
+│   └── 12 specialized autonomous security research services
+│
+├── PHANTOM_LEVIATHAN
+│   └── Dynamic Web3 smart-contract analysis and fuzzing
+│
+└── ADDITIONAL_RESEARCH_SYSTEMS
+    └── Under development
+```
+**Phantom Leviathan** is a separate system focused on dynamic Web3 smart-contract analysis, property-based fuzzing, and invariant testing. It is not one of the twelve Phantom Ecosystem services.
+
+This repository documents **Phantom Ecosystem only**. Other Phantom Platform systems are documented and maintained separately.
 
 # Ecosystem Overview
 
