@@ -74,9 +74,9 @@ Current documented domains include:
 
 # Relationship to Phantom Platform
 
-**Phantom Platform** is the parent security research environment under which multiple independent research systems are developed.
+**Phantom Platform** is the parent security research environment under which multiple independent security research systems are developed and operated.
 
-Phantom Ecosystem represents the continuous, service-oriented research layer of the platform. It operates independently from other Phantom Platform systems while remaining part of the same broader research environment.
+Each system has its own architecture, runtime responsibilities, security boundaries, and documentation, while remaining part of the same broader research platform.
 
 ```text
 PHANTOM_PLATFORM
@@ -85,14 +85,40 @@ PHANTOM_PLATFORM
 │   └── 12 specialized autonomous security research services
 │
 ├── PHANTOM_LEVIATHAN
-│   └── Dynamic Web3 smart-contract analysis and fuzzing
+│   └── Autonomous Web3 smart-contract analysis and dynamic fuzzing
+│
+├── PHANTOM_HYDRA
+│   └── Autonomous semantic fuzzing and LLM red teaming
 │
 └── ADDITIONAL_RESEARCH_SYSTEMS
-    └── Under development
+    └── Future independent Phantom Platform research systems
 ```
-**Phantom Leviathan** is a separate system focused on dynamic Web3 smart-contract analysis, property-based fuzzing, and invariant testing. It is not one of the twelve Phantom Ecosystem services.
 
-This repository documents **Phantom Ecosystem only**. Other Phantom Platform systems are documented and maintained separately.
+## Phantom Ecosystem
+
+**Phantom Ecosystem** represents the continuous, service-oriented research layer of Phantom Platform.
+
+It consists of twelve specialized autonomous security research services operating as a coordinated ecosystem while remaining architecturally separate from the other major Phantom Platform systems.
+
+## Phantom Leviathan
+
+**Phantom Leviathan** is an independent subsystem focused on Web3 and Ethereum smart-contract security research.
+
+Its responsibilities include public-repository monitoring, dynamic smart-contract analysis, Forge and Echidna fuzzing, invariant testing, and AI-assisted compilation-environment recovery.
+
+Phantom Leviathan is **not** one of the twelve Phantom Ecosystem services.
+
+## Phantom Hydra
+
+**Phantom Hydra** is an independent subsystem focused on authorized security testing of Large Language Models.
+
+It performs AI-assisted semantic fuzzing, target-specific request adaptation, response evaluation, and automated security-research triage using a local Ollama inference environment.
+
+Phantom Hydra is **not** one of the twelve Phantom Ecosystem services.
+
+Hydra and Leviathan are also independent from each other, although their current production architecture shares the same Oracle-hosted Ollama inference infrastructure.
+
+---
 
 # Ecosystem Overview
 
